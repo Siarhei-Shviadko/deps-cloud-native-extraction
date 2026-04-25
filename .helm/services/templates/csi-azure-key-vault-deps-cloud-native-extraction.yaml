@@ -1,0 +1,70 @@
+{{- if .Values.vault_settings.azure_key_vault }}
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: {{ .Values.csi.csi_default_name }}
+spec:
+  provider: azure
+  secretObjects:
+  - data:
+    - key: app-secret-key
+      objectName: app-secret-key
+    - key: password
+      objectName: cloud-native-extraction-db-password
+    - key: user
+      objectName: cloud-native-extraction-db-user
+    - key: database-host
+      objectName: db-host
+    - key: database-db
+      objectName: cloud-native-extraction-db
+    - key: message-broker-driver
+      objectName: message-broker-driver
+    - key: message-broker-connection-string
+      objectName: message-broker-connection-string
+    - key: keycloak-certs-endpoint
+      objectName: keycloak-certs-endpoint     
+    secretName: {{ .Values.secrets.deps_cloud_native_extraction.secretName }}
+    type: Opaque
+  parameters:
+    keyvaultName: {{ .Values.azure_kv_settings.keyvaultName }}
+    tenantId: {{ .Values.azure_kv_settings.tenantId }}
+    vaultKubernetesMountPath: {{ .Values.csi.vaultKubernetesMountPath }}
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"
+    userAssignedIdentityID: {{ .Values.azure_kv_settings.userAssignedIdentityID }}
+    resourceGroup:  {{ .Values.azure_kv_settings.resourceGroup }}
+    subscriptionId: {{ .Values.azure_kv_settings.subscriptionId }}
+    objects: |
+      array:
+        - |
+          objectName: "keycloak-certs-endpoint"
+          objectType: secret
+
+        - |
+          objectName: "app-secret-key"
+          objectType: secret
+
+        - |
+          objectName: "db-host"
+          objectType: secret
+
+        - |
+          objectName: "cloud-native-extraction-db"
+          objectType: secret
+
+        - |
+          objectName: "cloud-native-extraction-db-password"
+          objectType: secret
+
+        - |
+          objectName: "cloud-native-extraction-db-user"
+          objectType: secret
+
+        - |
+          objectName: "message-broker-connection-string"
+          objectType: secret
+
+        - |
+          objectName: "message-broker-driver"
+          objectType: secret
+{{- end }}

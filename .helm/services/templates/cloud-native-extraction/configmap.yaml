@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-native-extraction-configmap
+  labels:
+    {{- include "deps-cloud-native-extraction.labels" . | nindent 4 }}
+data:
+  ENV: {{ .Values.cloud_native_extraction_settings.ENV }}
+  DATABASE_PORT: '{{ .Values.cloud_native_extraction_settings.DATABASE_PORT }}'
+  DATABASE_DIALECT: '{{ .Values.cloud_native_extraction_settings.DATABASE_DIALECT }}'
+  DATABASE_DRIVER: '{{ .Values.cloud_native_extraction_settings.DATABASE_DRIVER }}'
+  DATABASE_REQUIRE_SECURE_TRANSPORT: '{{ .Values.cloud_native_extraction_settings.DATABASE_REQUIRE_SECURE_TRANSPORT }}'
+
+  {{- if .Values.cloud_native_extraction_settings.DATABASE_REQUIRE_SECURE_TRANSPORT }}
+  DATABASE_SSLKEY: {{ .Values.migration_settings.DATABASE_SSLKEY_PATH }}
+  DATABASE_SSLCERT: {{ .Values.migration_settings.DATABASE_SSLCERT_PATH }}
+  DATABASE_SSLROOTCERT: {{ .Values.migration_settings.DATABASE_SSLROOTCERT_PATH }}
+  {{- end }}
+
+  AUTH_VERIFY_SSL: '{{ .Values.cloud_native_extraction_settings.AUTH_VERIFY_SSL }}'
+
+  LOG_LEVEL: '{{ .Values.cloud_native_extraction_settings.LOG_LEVEL }}'
+  DOCUMENTATION_ENABLED: '{{ .Values.cloud_native_extraction_settings.DOCUMENTATION_ENABLED }}'
+
+  KAFKA_GROUP_ID: '{{ .Values.cloud_native_extraction_settings.KAFKA_GROUP_ID }}'
+  KAFKA_AUTO_OFFSET_RESET: '{{ .Values.cloud_native_extraction_settings.KAFKA_AUTO_OFFSET_RESET }}'
+  EXTRACTION_URL: '{{ .Values.cloud_native_extraction_settings.EXTRACTION_URL }}'
+  DOCUMENT_TYPE_URL: '{{ .Values.cloud_native_extraction_settings.DOCUMENT_TYPE_URL }}'
+  DOCUMENT_URL: '{{ .Values.cloud_native_extraction_settings.DOCUMENT_URL }}'
+  UNIFIER_URL: '{{ .Values.cloud_native_extraction_settings.UNIFIER_URL }}'
+
+  {{ if .Values.cloud_native_extraction_settings.RABBITMQ_TLS_ENABLED }}
+  RABBITMQ_TLS_HOST: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_HOST }}'
+  RABBITMQ_TLS_PORT: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_PORT }}'
+  RABBITMQ_TLS_USER: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_USER }}'
+  RABBITMQ_TLS_VHOST: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_VHOST }}'
+  RABBITMQ_TLS_SUBJECT: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_SUBJECT }}'
+  RABBITMQ_TLS_CA_CERT: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_CA_CERT }}'
+  RABBITMQ_TLS_CLIENT_CERT: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_CLIENT_CERT }}'
+  RABBITMQ_TLS_CLIENT_KEY: '{{ .Values.cloud_native_extraction_settings.RABBITMQ_TLS_CLIENT_KEY }}'
+  {{ end }}
+
+  {{ if .Values.cloud_native_extraction_settings.KAFKA_SECURITY_ENABLED }}
+  KAFKA_SASL_MECHANISM: '{{ .Values.cloud_native_extraction_settings.KAFKA_SASL_MECHANISM }}'
+  KAFKA_SECURITY_PROTOCOL: '{{ .Values.cloud_native_extraction_settings.KAFKA_SECURITY_PROTOCOL }}'
+  {{ end }}
+  {{ if .Values.message_broker_asb_without_manage_permission.enabled }}
+  ASB_SUBSCRIPTION_STRATEGY: '{{ .Values.cloud_native_extraction_settings.ASB_SUBSCRIPTION_STRATEGY }}'
+  {{ end }}
+  # Telemetry
+  INSTRUMENTATION_ENABLED: '{{ .Values.cloud_native_extraction_settings.INSTRUMENTATION_ENABLED }}'
+  SERVICE_NAME: '{{ .Values.cloud_native_extraction_settings.SERVICE_NAME }}'
+  EXPORTER_TYPE: '{{ .Values.cloud_native_extraction_settings.EXPORTER_TYPE }}'

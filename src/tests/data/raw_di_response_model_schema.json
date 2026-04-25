@@ -1,0 +1,66 @@
+{
+  "fieldSchema": {
+    "page1_string_1": {
+      "type": "string"
+    },
+    "page1_checkmark_False1": {
+      "type": "selectionMark"
+    },
+    "page1_checkmark_True4": {
+      "type": "selectionMark"
+    },
+    "page1_table_dynamic": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "COLUMN1": {
+            "type": "string"
+          },
+          "COLUMN2": {
+            "type": "string"
+          },
+          "Column3": {
+            "type": "string"
+          },
+          "Column4": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "page3_string1": {
+      "type": "string"
+    },
+    "page3_date": {
+      "type": "string"
+    },
+    "page2_radio_False1": {
+      "type": "selectionMark"
+    },
+    "page2_radio_True4": {
+      "type": "selectionMark"
+    },
+    "Page2_table_fixed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "COLUMN1": {
+            "type": "string"
+          },
+          "COLUMN2": {
+            "type": "string"
+          },
+          "COLUMN3": {
+            "type": "string"
+          },
+          "COLUMN4": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "buildMode": "neural"
+}

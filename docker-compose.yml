@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  api:
+    image: "cloud-native-extraction-dev"
+    container_name: "deps-cloud-native-extraction"
+    command: python -m deps_cloud_native_extraction serve
+
+  consumer:
+    image: "cloud-native-extraction-dev"
+    container_name: "deps-cloud-native-extraction-consumer"
+    command: python -m deps_cloud_native_extraction dispatch
+
+  migrator:
+    image: "cloud-native-extraction-migrator"
+    container_name: "deps-cloud-native-extraction-migrator"

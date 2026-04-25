@@ -1,0 +1,31 @@
+cloud_native_extraction:
+  image:
+    path: "/deps-platform/deps-cloud-native-extraction"
+
+cloud_native_extraction_settings:
+  ENV: demo
+  LOG_LEVEL: "INFO"
+
+  DATABASE_REQUIRE_SECURE_TRANSPORT: false
+
+migration_settings:
+  DATABASE_REQUIRE_SECURE_TRANSPORT: false
+
+cloud_native_extraction_consumer:
+  image:
+    path: "/deps-platform/deps-cloud-native-extraction"
+
+migrator:
+  image:
+    path: "/deps-platform/deps-cloud-native-extraction-migrator"
+
+helm:
+  helm_logs_job_enabled: false
+
+csi:
+  vault_namespace: 'k8s-demo'
+  roleName: 'k8s-demo'
+  vaultKubernetesMountPath: 'kubernetes-demo'
+
+service_account:
+  serviceAccountName: 'deps-demo'

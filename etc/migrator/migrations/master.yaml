@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: ./migrations/01-initial.yaml
+  - include:
+      file: ./migrations/02-saga-table.yaml
+  - include:
+      file: ./migrations/03-azure-extractor-table.yaml

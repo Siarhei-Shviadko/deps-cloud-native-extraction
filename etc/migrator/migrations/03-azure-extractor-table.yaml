@@ -1,0 +1,47 @@
+databaseChangeLog:
+
+- changeSet:
+    id: 1
+    author: Oleksandr Rex
+    changes:
+    - createTable:
+        tableName: azure_extractor
+        columns:
+        - column:
+            name: extractor_id
+            type: VARCHAR
+            constraints:
+              primaryKey: true
+        - column:
+            name: tenant_id
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: model_id
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: endpoint
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: vault_key_id
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: schema
+            type: JSONB
+            constraints:
+              nullable: false
+    - addUniqueConstraint:
+        columnNames: extractor_id, tenant_id
+        tableName: azure_extractor
+        constraintName: unique_azure_extractor_id_tenant_id
+
+    rollback:
+    - dropTable:
+        tableName: azure_extractor
