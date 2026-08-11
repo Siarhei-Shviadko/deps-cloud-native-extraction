@@ -22,14 +22,9 @@ from deps_cloud_native_extraction.domain.exceptions import (
 from deps_cloud_native_extraction.domain.model import (
     AzureDIExtractor,
     AzureDIExtractorFactory,
-    AzureDIField,
-    FieldCode,
     IExtractorRepository,
 )
-from deps_cloud_native_extraction.domain.model.types import (
-    RawAzureDIField,
-    RawAzureDocumentType,
-)
+from deps_cloud_native_extraction.domain.model.types import RawAzureDocumentType
 from deps_cloud_native_extraction.infrastructure.proxies import ExtractionProxy
 
 from ..extractor_checkup_info import ExtractorCheckupInfo, ExtractorCheckupInfoFactory
@@ -45,8 +40,8 @@ __all__ = ["AzureExtractionService"]
 
 class AzureExtractionService(IExtractDocuments):
     AGGREGATE_TYPE = "CloudNativeExtraction"
-    VAULT_SECRET_KEY_POSTFIX = f"--{uuid4().hex[:4]}--api-key"
-    MAX_KEY_VAULT_NAME_LENGTH = 111
+    VAULT_SECRET_KEY_POSTFIX = "--{uudi_string}--api-key"  # noqa: S105
+    MAX_KEY_VAULT_NAME_LENGTH = 103
     VAULT_KEYS_EXPIRATION_DAYS = 60
 
     def __init__(
@@ -221,7 +216,9 @@ class AzureExtractionService(IExtractDocuments):
         sanitized_tenant_id = "".join(char if char.isalnum() or char == "-" else "-" for char in tenant_id)
         name = f"{sanitized_tenant_id}--{sanitized_model_id}"
 
-        return name[: self.MAX_KEY_VAULT_NAME_LENGTH] + self.VAULT_SECRET_KEY_POSTFIX
+        return name[: self.MAX_KEY_VAULT_NAME_LENGTH] + self.VAULT_SECRET_KEY_POSTFIX.format(
+            uuid_string=uuid4().hex[:12],  # noqa: WPS432
+        )
 
     def _save_extracted_data(self, extracted_data: ExtractedData) -> None:
         self._extraction_proxy.save_extracted_data(extracted_data=extracted_data)
