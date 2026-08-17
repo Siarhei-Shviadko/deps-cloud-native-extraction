@@ -23,10 +23,7 @@ services:
       - ./vendors:/vendors
       - ./src/setup.cfg:/app/setup.cfg
     ports:
-      - "8888:8000"
-    environment:
-      WDB_SOCKET_SERVER: wdb
-      WDB_NO_BROWSER_AUTO_OPEN: "true"
+      - "8890:8000"
     stdin_open: true
     tty: true
 
@@ -49,9 +46,6 @@ services:
       - ./src/poetry.lock:/app/poetry.lock
       - ./src/pyproject.toml:/app/pyproject.toml
       - ./vendors:/vendors
-    environment:
-        WDB_SOCKET_SERVER: wdb
-        WDB_NO_BROWSER_AUTO_OPEN: "True"
     stdin_open: true
     tty: true
 
